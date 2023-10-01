@@ -24,3 +24,5 @@ func ConnectDB() {
 func MigrateDB() {
 	DB.AutoMigrate(&models.User{}, &models.Photo{})
 }
+
+// :)
