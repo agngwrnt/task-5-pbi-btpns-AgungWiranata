@@ -4,6 +4,7 @@ import (
 	"btpn/database"
 	"btpn/helpers"
 	"btpn/models"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -12,6 +13,31 @@ func RegisterUser(c *gin.Context) {
 	// Mendapatkan data dari request
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var existingUser models.User
+	result := database.DB.Where("email = ?", user.Email).First(&existingUser)
+	if result.RowsAffected != 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Alamat email sudah terdaftar"})
+		return
+	}
+
+	// Memeriksa validitas alamat email
+	if !govalidator.IsEmail(user.Email) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Alamat email tidak valid"})
+		return
+	}
+
+	// Memeriksa validitas username
+	if err := helpers.ValidateUsername(user.Username); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Validasi menggunakan GoValidator
+	if _, err := govalidator.ValidateStruct(user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -52,6 +78,12 @@ func LoginUser(c *gin.Context) {
 	result := database.DB.Where("email = ?", inputUser.Email).First(&existingUser)
 	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Pengguna tidak ditemukan"})
+		return
+	}
+
+	// Memeriksa validitas alamat email
+	if !govalidator.IsEmail(inputUser.Email) { // Menambahkan validasi alamat email
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Alamat email tidak valid"})
 		return
 	}
 

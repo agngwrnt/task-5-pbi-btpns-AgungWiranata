@@ -10,17 +10,17 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
 	// Rute untuk pengguna
-	r.POST("/users/register", controllers.RegisterUser)
-	r.POST("/users/login", controllers.LoginUser)
-	r.PUT("/users/:userId", controllers.UpdateUser)
-	r.DELETE("/users/:userId", controllers.DeleteUser)
+	r.POST("/api/v1/users/register", controllers.RegisterUser)
+	r.POST("/api/v1/users/login", controllers.LoginUser)
+	r.PUT("/api/v1/users/:userId", controllers.UpdateUser)
+	r.DELETE("/api/v1/users/:userId", controllers.DeleteUser)
 
-	r.POST("/photos", controllers.UploadPhoto)
-	r.GET("/photos", controllers.GetPhotos)
-	r.PUT("/photos/:photoId", controllers.UpdatePhoto)
-	r.DELETE("/photos/:photoId", controllers.DeletePhoto)
+	r.POST("/api/v1/photos", controllers.UploadPhoto)
+	r.GET("/api/v1/photos", controllers.GetPhotos)
+	r.PUT("/api/v1/photos/:photoId", controllers.UpdatePhoto)
+	r.DELETE("/api/v1/photos/:photoId", controllers.DeletePhoto)
 
-	authGroup := r.Group("/photos")
+	authGroup := r.Group("/api/v1/photos")
 	authGroup.Use(middlewares.AuthMiddleware())
 	{
 		authGroup.POST("/auth", controllers.UploadPhoto)
