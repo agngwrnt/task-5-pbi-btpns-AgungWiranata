@@ -9,8 +9,8 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	_ = "user=agung.wiranata password=Anjink07 host=localhost port=5432 database=postgres"
-	database, err := gorm.Open(postgres.Open("user=agung.wiranata password=Anjink07 host=localhost port=5432 database=postgres"), &gorm.Config{})
+	_ = "user=silahkan masukan host sendiri password=1 host=localhost port=5432 database=postgres"
+	database, err := gorm.Open(postgres.Open("user=silahkan masukan host sendiri password=1 host=localhost port=5432 database=postgres"), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
 	}
