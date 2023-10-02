@@ -8,5 +8,5 @@ import (
 func main() {
 	database.ConnectDB()
 	r := router.SetupRouter()
-	r.Run(":8080") // Ganti dengan port yang Anda inginkan
+	r.Run(":8080")
 }

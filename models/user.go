@@ -17,9 +17,6 @@ type User struct {
 
 func init() {
 	govalidator.TagMap["uniquePassword"] = govalidator.Validator(func(str string) bool {
-		// Implementasi logika untuk memeriksa apakah kata sandi sudah digunakan
-		// Return false jika kata sandi sudah digunakan
-		// Return true jika kata sandi unik
-		return true // Ganti dengan implementasi Anda sendiri
+		return true
 	})
 }
